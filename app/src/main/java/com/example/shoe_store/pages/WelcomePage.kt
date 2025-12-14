@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,60 +30,60 @@ import com.example.shoe_store.ui.theme.Shoe_storeTheme
 
 @Composable
 fun WelcomePage(
-    user: User,
-    modifier: Modifier = Modifier
+    onClick: () -> Unit,
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(0.85f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+    Scaffold { innerPadding ->
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
         ) {
-            Image(
-                painter = painterResource(R.drawable.nike_logo),
-                contentDescription = "Nike Logo",
-                modifier = Modifier.width(200.dp),
-            )
-
-            Spacer(Modifier.height(150.dp))
-
-            Text(
-                text = "Just Do It",
-                style = MaterialTheme.typography.headlineLarge,
-            )
-
-            Spacer(Modifier.height(30.dp))
-
-            Text(
-                text = stringResource(R.string.store_slogan),
-                textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.secondary
-            )
-
-            Spacer(Modifier.height(45.dp))
-
-            Button(
-                onClick = {
-
-                },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer
-                ),
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(10.dp)
+            Column(
+                modifier = Modifier.fillMaxWidth(0.85f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
             ) {
-                Text(
-                    text = "Shop Now",
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    modifier = Modifier.padding(vertical = 15.dp)
+                Image(
+                    painter = painterResource(R.drawable.nike_logo),
+                    contentDescription = "Nike Logo",
+                    modifier = Modifier.width(200.dp),
                 )
+
+                Spacer(Modifier.height(150.dp))
+
+                Text(
+                    text = "Just Do It",
+                    style = MaterialTheme.typography.headlineLarge,
+                )
+
+                Spacer(Modifier.height(30.dp))
+
+                Text(
+                    text = stringResource(R.string.store_slogan),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.secondary
+                )
+
+                Spacer(Modifier.height(45.dp))
+
+                Button(
+                    onClick = onClick,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(10.dp)
+                ) {
+                    Text(
+                        text = "Shop Now",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.padding(vertical = 15.dp)
+                    )
+                }
             }
         }
     }
