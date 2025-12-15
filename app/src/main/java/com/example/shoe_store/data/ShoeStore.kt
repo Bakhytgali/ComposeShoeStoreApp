@@ -1,6 +1,7 @@
 package com.example.shoe_store.data
 
 import com.example.shoe_store.R
+import kotlin.random.Random
 
 object ShoeStore {
     private var shoes: MutableList<ShoeModel> = mutableListOf()
@@ -10,6 +11,21 @@ object ShoeStore {
     }
 
     fun getShoes(): List<ShoeModel> = this.shoes.ifEmpty { emptyList() }
+
+    fun getRandomShoesAsHotPicks(): List<ShoeModel> {
+        val shoes = getShoes()
+        val hotPicks: MutableList<ShoeModel> = mutableListOf()
+
+        while(hotPicks.size < 3) {
+            val randIndex = Random.nextInt(shoes.size)
+
+            if(!hotPicks.contains(shoes[randIndex])) {
+                hotPicks.add(shoes[randIndex])
+            }
+        }
+
+        return hotPicks
+    }
 
     private fun loadShoes() {
         val shoes: MutableList<ShoeModel> = mutableListOf()

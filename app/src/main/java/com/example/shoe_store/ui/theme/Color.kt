@@ -14,3 +14,6 @@ val bgWhite = Color(0XFFEEEEEE)
 val txtBlack = Color(0xFF212121)
 val containerWhite = Color(0xFFFFFFFF)
 val secondaryTxtGray = Color(0xFF808080)
+
+//
+val linkBlue = Color(0xFF0000EE)

@@ -34,6 +34,7 @@ private val LightColorScheme = lightColorScheme(
     secondary = secondaryTxtGray,
     primaryContainer = txtBlack,
     onPrimaryContainer = containerWhite,
+    onTertiary = linkBlue
 )
 
 @Composable
