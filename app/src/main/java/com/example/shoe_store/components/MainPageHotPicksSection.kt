@@ -23,6 +23,7 @@ import com.example.shoe_store.data.ShoeStore
 
 @Composable
 fun MainPageHotPicksSection(
+    onNavigateToItem: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val hotPicks: List<ShoeModel> = ShoeStore.getRandomShoesAsHotPicks()
@@ -57,6 +58,7 @@ fun MainPageHotPicksSection(
             items(hotPicks) { shoe ->
                 HotPickCard(
                     shoe = shoe,
+                    onNavigateToItem = onNavigateToItem,
                     modifier = Modifier
                         .width(250.dp)
                         .height(300.dp)

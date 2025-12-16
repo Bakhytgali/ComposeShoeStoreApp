@@ -1,5 +1,6 @@
 package com.example.shoe_store.pages
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,15 +27,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.shoe_store.MainPageViewModel
 import com.example.shoe_store.components.HomePageDrawer
+import com.example.shoe_store.components.HomePageSearchBar
 import com.example.shoe_store.components.MainPageHotPicksSection
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePage() {
+fun HomePage(
+    onNavigateToSearch: () -> Unit,
+    onNavigateToItem: (String) -> Unit
+) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+
+    val viewModel = MainPageViewModel()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -80,7 +88,25 @@ fun HomePage() {
                         .fillMaxWidth(0.9f)
                 ) {
                     Spacer(Modifier.height(20.dp))
-                    MainPageHotPicksSection()
+                    Box(
+                        modifier = Modifier.clickable {
+                            viewModel.changeHomePageSearchBarIsActive()
+                            onNavigateToSearch()
+                        }
+                    ) {
+                        HomePageSearchBar(
+                            isActive = viewModel.homePageSearchBarIsActive,
+                            value = "",
+                            onValueChange = {
+
+                            },
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    }
+                    Spacer(Modifier.height(20.dp))
+                    MainPageHotPicksSection(
+                        onNavigateToItem = onNavigateToItem
+                    )
                 }
             }
         }
