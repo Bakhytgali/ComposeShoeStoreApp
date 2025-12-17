@@ -71,7 +71,12 @@ fun AppNavigation(
                     NavEntry(
                         key = key
                     ) {
-                        ShopItemPage(itemId = key.id)
+                        ShopItemPage(
+                            itemId = key.id,
+                            onBack = {
+                                backStack.removeLastOrNull()
+                            }
+                        )
                     }
 
                 is SearchPage ->
@@ -84,6 +89,7 @@ fun AppNavigation(
                             }
                         )
                     }
+
                 else -> throw RuntimeException("Invalid Route")
             }
         }

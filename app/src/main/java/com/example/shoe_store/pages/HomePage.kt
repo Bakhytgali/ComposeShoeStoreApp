@@ -18,7 +18,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
@@ -37,12 +36,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomePage(
     onNavigateToSearch: () -> Unit,
-    onNavigateToItem: (String) -> Unit
+    onNavigateToItem: (String) -> Unit,
+    viewModel: MainPageViewModel = MainPageViewModel()
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
-
-    val viewModel = MainPageViewModel()
 
     ModalNavigationDrawer(
         drawerState = drawerState,
