@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.example.shoe_store.data.User
+import com.example.shoe_store.pages.CartPage
 import com.example.shoe_store.pages.HomePage
 import com.example.shoe_store.pages.SearchPage
 import com.example.shoe_store.pages.ShopItemPage
@@ -28,6 +29,9 @@ data object SearchPage : NavKey
 // Shoe Page
 @Serializable
 data class ShopItemPage(val id: String) : NavKey
+
+@Serializable
+data object CartPage : NavKey
 
 @Composable
 fun AppNavigation(
@@ -85,9 +89,16 @@ fun AppNavigation(
                     ) {
                         SearchPage(
                             onBack = {
-                                backStack.removeLast()
+                                backStack.removeLastOrNull()
                             }
                         )
+                    }
+
+                is CartPage ->
+                    NavEntry(
+                        key = key
+                    ) {
+                        CartPage()
                     }
 
                 else -> throw RuntimeException("Invalid Route")

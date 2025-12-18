@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.HomePageSearchBar
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,11 +33,8 @@ fun SearchPage(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-
-                },
-                navigationIcon = {
+            AppTopBar(
+                navIcon = {
                     IconButton(
                         onClick = onBack
                     ) {
@@ -46,9 +44,6 @@ fun SearchPage(
                         )
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
             )
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.background)

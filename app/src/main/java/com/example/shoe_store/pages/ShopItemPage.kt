@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.data.ShoeModel
 import com.example.shoe_store.data.ShoeStore
 
@@ -45,11 +46,8 @@ fun ShopItemPage(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-
-                },
-                navigationIcon = {
+            AppTopBar(
+                navIcon = {
                     IconButton(
                         onClick = onBack
                     ) {
@@ -58,10 +56,7 @@ fun ShopItemPage(
                             contentDescription = ""
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+                }
             )
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
