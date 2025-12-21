@@ -1,10 +1,11 @@
-package com.example.shoe_store.data
+package com.example.shoe_store.viewModels
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import kotlin.collections.emptyList
+import com.example.shoe_store.data.ShoeModel
+import com.example.shoe_store.data.ShoeStore
 
-class UserViewModel(val name: String): ViewModel() {
+class UserViewModel(): ViewModel() {
     private var userCart = mutableStateListOf<ShoeModel>()
 
     fun getCartSize(): Int = getCart().size

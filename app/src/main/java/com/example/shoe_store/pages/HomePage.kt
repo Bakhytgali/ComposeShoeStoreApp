@@ -22,6 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,26 +35,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.shoe_store.MainPageViewModel
+import com.example.shoe_store.viewModels.MainPageViewModel
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.CustomNavigationBarItem
 import com.example.shoe_store.components.HomePageDrawer
 import com.example.shoe_store.components.HomePageSearchBar
 import com.example.shoe_store.components.MainPageHotPicksSection
-import com.example.shoe_store.data.UserViewModel
+import com.example.shoe_store.viewModels.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
-    user: UserViewModel,
+    userViewModel: UserViewModel,
+    mainPageViewModel: MainPageViewModel,
     onNavigateToSearch: () -> Unit,
     onNavigateToItem: (String) -> Unit,
     onNavigateToCart: () -> Unit,
-    viewModel: MainPageViewModel = MainPageViewModel()
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
 
     var isActive by remember {
         mutableStateOf("Home")
@@ -130,6 +135,9 @@ fun HomePage(
                         }
                     }
                 }
+            },
+            snackbarHost = {
+                SnackbarHost(hostState = snackBarHostState)
             }
         ) { innerPadding ->
             Box(
@@ -146,12 +154,12 @@ fun HomePage(
                     Spacer(Modifier.height(20.dp))
                     Box(
                         modifier = Modifier.clickable {
-                            viewModel.changeHomePageSearchBarIsActive()
+                            mainPageViewModel.changeHomePageSearchBarIsActive()
                             onNavigateToSearch()
                         }
                     ) {
                         HomePageSearchBar(
-                            isActive = viewModel.homePageSearchBarIsActive,
+                            isActive = mainPageViewModel.homePageSearchBarIsActive,
                             value = "",
                             onValueChange = {
 
@@ -162,9 +170,15 @@ fun HomePage(
                     Spacer(Modifier.height(20.dp))
                     MainPageHotPicksSection(
                         onAddItemToCart = { shoeId ->
-                             user.addShoeToCart(id = shoeId)
+                            val result = userViewModel.addShoeToCart(id = shoeId)
+                            if(result == "OK") {
+                                scope.launch {
+                                    snackBarHostState.showSnackbar("Item added")
+                                }
+                            }
                         },
-                        onNavigateToItem = onNavigateToItem
+                        onNavigateToItem = onNavigateToItem,
+                        shoes = mainPageViewModel.getHotPicks()
                     )
                 }
             }

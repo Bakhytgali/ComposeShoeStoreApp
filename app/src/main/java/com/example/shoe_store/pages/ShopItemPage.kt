@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.data.ShoeModel
 import com.example.shoe_store.data.ShoeStore
-import com.example.shoe_store.data.UserViewModel
+import com.example.shoe_store.viewModels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

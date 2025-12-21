@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.CartItemCard
 import com.example.shoe_store.components.CustomNavigationBarItem
-import com.example.shoe_store.data.UserViewModel
+import com.example.shoe_store.viewModels.UserViewModel
 
 @Composable
 fun CartPage(

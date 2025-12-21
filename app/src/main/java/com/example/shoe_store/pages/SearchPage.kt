@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.HomePageSearchBar
-import com.example.shoe_store.data.UserViewModel
+import com.example.shoe_store.viewModels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

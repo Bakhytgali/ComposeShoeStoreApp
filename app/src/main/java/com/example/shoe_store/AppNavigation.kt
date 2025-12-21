@@ -6,12 +6,13 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.example.shoe_store.data.UserViewModel
+import com.example.shoe_store.viewModels.UserViewModel
 import com.example.shoe_store.pages.CartPage
 import com.example.shoe_store.pages.HomePage
 import com.example.shoe_store.pages.SearchPage
 import com.example.shoe_store.pages.ShopItemPage
 import com.example.shoe_store.pages.WelcomePage
+import com.example.shoe_store.viewModels.MainPageViewModel
 import kotlinx.serialization.Serializable
 
 // Welcome Page Data Object
@@ -36,6 +37,7 @@ data object CartPage : NavKey
 @Composable
 fun AppNavigation(
     user: UserViewModel,
+    mainPageViewModel: MainPageViewModel,
     modifier: Modifier = Modifier
 ) {
     val backStack = rememberNavBackStack(WelcomePage)
@@ -63,7 +65,8 @@ fun AppNavigation(
                         key = key
                     ) {
                         HomePage(
-                            user = user,
+                            userViewModel = user,
+                            mainPageViewModel = mainPageViewModel,
                             onNavigateToItem = { itemId ->
                                 backStack.add(ShopItemPage(id = itemId))
                             },
