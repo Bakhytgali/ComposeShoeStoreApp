@@ -3,6 +3,7 @@ package com.example.shoe_store.components
 import android.R.attr.contentDescription
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -53,10 +54,22 @@ fun CartItemCard(
                     modifier = Modifier.size(100.dp)
                 )
 
-                Text(
-                    text = cartItem.shoeName,
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(5.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
+                    Text(
+                        text = cartItem.shoeName,
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+
+                    Text(
+                        text = "${cartItem.shoePrice}$",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.secondary
+                    )
+                }
+
             }
 
             IconButton(

@@ -167,13 +167,19 @@ fun HomePage(
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
+
                     Spacer(Modifier.height(20.dp))
+
                     MainPageHotPicksSection(
                         onAddItemToCart = { shoeId ->
                             val result = userViewModel.addShoeToCart(id = shoeId)
                             if(result == "OK") {
                                 scope.launch {
                                     snackBarHostState.showSnackbar("Item added")
+                                }
+                            } else {
+                                scope.launch {
+                                    snackBarHostState.showSnackbar("Already in cart")
                                 }
                             }
                         },

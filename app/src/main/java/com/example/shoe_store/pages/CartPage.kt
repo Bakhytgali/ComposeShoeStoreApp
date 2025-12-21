@@ -21,11 +21,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +39,7 @@ import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.CartItemCard
 import com.example.shoe_store.components.CustomNavigationBarItem
 import com.example.shoe_store.viewModels.UserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun CartPage(
@@ -46,6 +50,11 @@ fun CartPage(
 ) {
     var isActive by remember {
         mutableStateOf("Cart")
+    }
+
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
     }
 
     Scaffold(
@@ -107,6 +116,11 @@ fun CartPage(
                     }
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackBarHostState
+            )
         }
     ) { innerPadding ->
         Box(
@@ -149,7 +163,17 @@ fun CartPage(
                             CartItemCard(
                                 cartItem = cartItem,
                                 onRemoveItemFromCart = { itemId ->
-                                    user.removeShoeFromCart(id = itemId)
+                                    val result = user.removeShoeFromCart(id = itemId)
+
+                                    if(result == "OK") {
+                                        scope.launch {
+                                            snackBarHostState.showSnackbar("Item removed from cart")
+                                        }
+                                    } else {
+                                        scope.launch {
+                                            snackBarHostState.showSnackbar("Something went wrong")
+                                        }
+                                    }
                                 }
                             )
                         }
