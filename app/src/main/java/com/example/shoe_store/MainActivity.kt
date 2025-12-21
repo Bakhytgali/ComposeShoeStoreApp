@@ -11,7 +11,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        val user = UserViewModel("Rakhat")
+        val user = UserViewModel("Rakhat") // should change this
 
         setContent {
             Shoe_storeTheme {
