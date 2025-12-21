@@ -6,7 +6,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import com.example.shoe_store.data.User
+import com.example.shoe_store.data.UserViewModel
 import com.example.shoe_store.pages.CartPage
 import com.example.shoe_store.pages.HomePage
 import com.example.shoe_store.pages.SearchPage
@@ -35,7 +35,7 @@ data object CartPage : NavKey
 
 @Composable
 fun AppNavigation(
-    user: User,
+    user: UserViewModel,
     modifier: Modifier = Modifier
 ) {
     val backStack = rememberNavBackStack(WelcomePage)
@@ -51,6 +51,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         WelcomePage(
+                            user = user,
                             onClick = {
                                 backStack.add(HomePage)
                             }
@@ -62,6 +63,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         HomePage(
+                            user = user,
                             onNavigateToItem = { itemId ->
                                 backStack.add(ShopItemPage(id = itemId))
                             },
@@ -79,6 +81,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         ShopItemPage(
+                            user = user,
                             itemId = key.id,
                             onBack = {
                                 backStack.removeLastOrNull()
@@ -91,6 +94,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         SearchPage(
+                            user = user,
                             onBack = {
                                 backStack.removeLastOrNull()
                             }
@@ -102,6 +106,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         CartPage(
+                            user = user,
                             onBack = {
                                 backStack.removeLastOrNull()
                             },

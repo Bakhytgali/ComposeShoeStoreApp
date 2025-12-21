@@ -39,11 +39,13 @@ import com.example.shoe_store.components.CustomNavigationBarItem
 import com.example.shoe_store.components.HomePageDrawer
 import com.example.shoe_store.components.HomePageSearchBar
 import com.example.shoe_store.components.MainPageHotPicksSection
+import com.example.shoe_store.data.UserViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomePage(
+    user: UserViewModel,
     onNavigateToSearch: () -> Unit,
     onNavigateToItem: (String) -> Unit,
     onNavigateToCart: () -> Unit,
@@ -159,6 +161,9 @@ fun HomePage(
                     }
                     Spacer(Modifier.height(20.dp))
                     MainPageHotPicksSection(
+                        onAddItemToCart = { shoeId ->
+                             user.addShoeToCart(id = shoeId)
+                        },
                         onNavigateToItem = onNavigateToItem
                     )
                 }

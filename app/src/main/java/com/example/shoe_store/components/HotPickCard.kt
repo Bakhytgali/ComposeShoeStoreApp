@@ -35,6 +35,7 @@ import com.example.shoe_store.data.ShoeModel
 @Composable
 fun HotPickCard(
     shoe: ShoeModel,
+    onAddItemToCart: (String) -> Unit,
     onNavigateToItem: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -79,7 +80,7 @@ fun HotPickCard(
 
                 IconButton(
                     onClick = {
-
+                        onAddItemToCart(shoe.shoeId)
                     },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer

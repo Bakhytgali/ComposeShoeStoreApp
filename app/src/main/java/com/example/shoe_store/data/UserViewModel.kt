@@ -1,21 +1,25 @@
 package com.example.shoe_store.data
 
-class User(val name: String) {
-    private val userCart: MutableList<ShoeModel> = mutableListOf()
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
+import kotlin.collections.emptyList
 
-    fun getCart(): List<ShoeModel> = userCart.ifEmpty { emptyList() }
+class UserViewModel(val name: String): ViewModel() {
+    private var userCart = mutableStateListOf<ShoeModel>()
+
+    fun getCartSize(): Int = getCart().size
+    fun getCart(): List<ShoeModel> = userCart
 
     fun addShoeToCart(id: String): String {
         val shoe: ShoeModel? = ShoeStore.getShoeById(id)
 
-        if(shoe != null && userCart.isNotEmpty() && !alreadyInCard(id = id)) {
+        if(shoe != null && !alreadyInCard(id = id)) {
             userCart.add(shoe)
             return "OK"
         }
 
         return "ERROR"
     }
-
     fun removeShoeFromCart(id: String): String {
         val shoe: ShoeModel? = ShoeStore.getShoeById(id)
 

@@ -23,6 +23,7 @@ import com.example.shoe_store.data.ShoeStore
 
 @Composable
 fun MainPageHotPicksSection(
+    onAddItemToCart: (String) -> Unit,
     onNavigateToItem: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -59,6 +60,7 @@ fun MainPageHotPicksSection(
                 HotPickCard(
                     shoe = shoe,
                     onNavigateToItem = onNavigateToItem,
+                    onAddItemToCart = onAddItemToCart,
                     modifier = Modifier
                         .width(250.dp)
                         .height(300.dp)
