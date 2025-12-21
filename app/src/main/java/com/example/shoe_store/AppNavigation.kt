@@ -67,6 +67,9 @@ fun AppNavigation(
                             },
                             onNavigateToSearch = {
                                 backStack.add(SearchPage)
+                            },
+                            onNavigateToCart = {
+                                backStack.add(CartPage)
                             }
                         )
                     }
@@ -98,7 +101,14 @@ fun AppNavigation(
                     NavEntry(
                         key = key
                     ) {
-                        CartPage()
+                        CartPage(
+                            onBack = {
+                                backStack.removeLastOrNull()
+                            },
+                            onNavigateToHome = {
+                                backStack.add(HomePage)
+                            }
+                        )
                     }
 
                 else -> throw RuntimeException("Invalid Route")
