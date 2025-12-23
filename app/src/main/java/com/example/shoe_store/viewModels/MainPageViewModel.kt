@@ -9,7 +9,7 @@ import com.example.shoe_store.data.ShoeStore
 import java.util.Collections.emptyList
 
 class MainPageViewModel : ViewModel() {
-    private var hotPicks: MutableList<ShoeModel> = emptyList()
+    private var hotPicks: List<ShoeModel> = emptyList()
     var homePageSearchBarIsActive by mutableStateOf(false)
         private set
 
@@ -20,7 +20,7 @@ class MainPageViewModel : ViewModel() {
     fun getHotPicks(): List<ShoeModel>{
         if(hotPicks.isEmpty()) {
             val newHotPicks = ShoeStore.getRandomShoesAsHotPicks()
-            hotPicks = newHotPicks.toMutableList()
+            hotPicks = newHotPicks
             return hotPicks
         } else {
             return hotPicks
