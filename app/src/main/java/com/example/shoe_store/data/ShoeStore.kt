@@ -37,6 +37,19 @@ object ShoeStore {
     }
 
     private fun generateRandomReviews(): List<ReviewModel> {
+        val names = listOf(
+            "Rakhat",
+            "Bexultan",
+            "Azamat",
+            "Merey",
+            "Damir",
+            "Abylay",
+            "Arailym",
+            "Rasul",
+            "Akbota",
+            "Janerke"
+        )
+
         val comments = listOf(
             "Very comfortable shoes!",
             "Good value for the price.",
@@ -47,7 +60,7 @@ object ShoeStore {
 
         return List((1..4).random()) {
             ReviewModel(
-                authorName = "User${(100..999).random()}",
+                authorName = names.random(),
                 comment = comments.random(),
                 rating = (3..5).random()
             )
