@@ -61,7 +61,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Air Max Dn",
                 shoeImg = R.drawable.nike_air_max_dn,
                 shoePrice = 80,
@@ -73,7 +73,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Air Max Dn Purple",
                 shoeImg = R.drawable.nike_air_max_dn_purple,
                 shoePrice = 85,
@@ -85,7 +85,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Air Max Dn Red",
                 shoeImg = R.drawable.nike_air_max_dn_red,
                 shoePrice = 85,
@@ -97,7 +97,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Air Max Dn Sky Blue",
                 shoeImg = R.drawable.nike_air_max_dn_sky_blue,
                 shoePrice = 85,
@@ -109,7 +109,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Journey Women's",
                 shoeImg = R.drawable.nike_journey_women,
                 shoePrice = 70,
@@ -121,7 +121,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Revolution",
                 shoeImg = R.drawable.nike_revolution,
                 shoePrice = 70,
@@ -133,7 +133,7 @@ object ShoeStore {
 
         shoes.add(
             ShoeModel(
-                shoeId = ShoeIdGenerator.getRandomString(),
+                shoeId = ShoeOperations.getRandomString(),
                 shoeName = "Nike Revolution 7",
                 shoeImg = R.drawable.nike_revolution_7,
                 shoePrice = 80,
