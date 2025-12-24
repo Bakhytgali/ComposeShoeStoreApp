@@ -1,6 +1,9 @@
 package com.example.shoe_store
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -41,6 +44,11 @@ fun AppNavigation(
     modifier: Modifier = Modifier
 ) {
     val backStack = rememberNavBackStack(WelcomePage)
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+
     NavDisplay(
         backStack = backStack,
         onBack = {
@@ -84,7 +92,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         ShopItemPage(
-                            user = user,
+                            userViewModel = user,
                             itemId = key.id,
                             onBack = {
                                 backStack.removeLastOrNull()
@@ -109,7 +117,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         CartPage(
-                            user = user,
+                            userViewModel = user,
                             onBack = {
                                 backStack.removeLastOrNull()
                             },

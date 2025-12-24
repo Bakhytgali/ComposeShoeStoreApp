@@ -43,7 +43,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CartPage(
-    user: UserViewModel,
+    userViewModel: UserViewModel,
     onBack: () -> Unit,
     onNavigateToHome: () -> Unit,
     modifier: Modifier = Modifier
@@ -129,7 +129,7 @@ fun CartPage(
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            if (user.getCart().isEmpty()) {
+            if (userViewModel.getCart().isEmpty()) {
                 Text(
                     text = "Nothing in here!",
                     style = MaterialTheme.typography.headlineLarge,
@@ -146,7 +146,7 @@ fun CartPage(
                     Spacer(Modifier.height(20.dp))
 
                     Text(
-                        text = "Items in you cart: ${user.getCartSize()}",
+                        text = "Items in you cart: ${userViewModel.getCartSize()}",
                         style = MaterialTheme.typography.headlineMedium,
                         color = MaterialTheme.colorScheme.secondary,
                         textAlign = TextAlign.Start,
@@ -159,11 +159,11 @@ fun CartPage(
                         modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(user.getCart()) { cartItem ->
+                        items(userViewModel.getCart()) { cartItem ->
                             CartItemCard(
                                 cartItem = cartItem,
                                 onRemoveItemFromCart = { itemId ->
-                                    val result = user.removeShoeFromCart(id = itemId)
+                                    val result = userViewModel.removeShoeFromCart(id = itemId)
 
                                     if(result == "OK") {
                                         scope.launch {

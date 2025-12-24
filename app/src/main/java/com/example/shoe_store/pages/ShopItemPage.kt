@@ -16,24 +16,28 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.AddShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.RatingStars
@@ -44,11 +48,12 @@ import com.example.shoe_store.data.ShoeModel
 import com.example.shoe_store.data.ShoeOperations
 import com.example.shoe_store.data.ShoeStore
 import com.example.shoe_store.viewModels.UserViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShopItemPage(
-    user: UserViewModel,
+    userViewModel: UserViewModel,
     itemId: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -56,6 +61,11 @@ fun ShopItemPage(
     var shoe: ShoeModel? by remember {
         mutableStateOf(null)
     }
+    val scope = rememberCoroutineScope()
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+
     LaunchedEffect(Unit) {
         shoe = ShoeStore.getShoeById(itemId)
     }
@@ -74,6 +84,9 @@ fun ShopItemPage(
                     }
                 }
             )
+        },
+        snackbarHost = {
+            SnackbarHost(snackBarHostState)
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
     ) { innerPadding ->
@@ -114,25 +127,64 @@ fun ShopItemPage(
                                     .size(300.dp)
                             )
 
-                            Text(
-                                text = it.shoeName,
-                                style = MaterialTheme.typography.headlineLarge
-                            )
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                Column() {
+                                    Text(
+                                        text = it.shoeName,
+                                        style = MaterialTheme.typography.headlineLarge
+                                    )
 
-                            Spacer(Modifier.height(10.dp))
+                                    Spacer(Modifier.height(10.dp))
 
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(15.dp),
-                                verticalAlignment = Alignment.Bottom
-                            ){
-                                Text(
-                                    text = "${it.shoePrice}$",
-                                    style = MaterialTheme.typography.bodyLarge,
-                                )
+                                    Row(
+                                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                                        verticalAlignment = Alignment.Bottom
+                                    ) {
+                                        Text(
+                                            text = "${it.shoePrice}$",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                        )
 
-                                RatingStars(
-                                    rating = if(shoe != null) ShoeOperations.countAvgReview(shoe!!) else 0.0
-                                )
+                                        RatingStars(
+                                            rating = if (shoe != null) ShoeOperations.countAvgReview(
+                                                shoe!!
+                                            ) else 0.0
+                                        )
+                                    }
+                                }
+                                IconButton(
+                                    onClick = {
+                                        if (shoe != null) {
+                                            val result = userViewModel.addShoeToCart(shoe!!.shoeId)
+                                            if (result == "OK") {
+                                                scope.launch {
+                                                    snackBarHostState.showSnackbar("Item added to cart")
+                                                }
+                                            } else {
+                                                scope.launch {
+                                                    snackBarHostState.showSnackbar("Something went wrong")
+                                                }
+                                            }
+                                        }
+                                    },
+                                    colors = IconButtonDefaults.iconButtonColors(
+                                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                                    ),
+                                    shape = RoundedCornerShape(5.dp),
+                                    modifier = Modifier
+                                        .size(60.dp)
+                                        .align(Alignment.BottomEnd)
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.AddShoppingCart,
+                                        contentDescription = "Add To Cart Button",
+                                        tint = MaterialTheme.colorScheme.surface,
+                                        modifier = Modifier.padding(5.dp)
+                                    )
+                                }
                             }
                         }
                     }
@@ -142,7 +194,7 @@ fun ShopItemPage(
                 ShopItemPageSectionHeader(header = "Metrics")
                 Spacer(Modifier.height(10.dp))
                 ShoeCharacsRow(
-                    characteristic = if(shoe != null) shoe!!.characteristics else emptyList()
+                    characteristic = if (shoe != null) shoe!!.characteristics else emptyList()
                 )
 
                 Spacer(Modifier.height(20.dp))
@@ -150,7 +202,7 @@ fun ShopItemPage(
                 Spacer(Modifier.height(10.dp))
 
                 ShoeReviewsColumn(
-                    reviews = if(shoe != null) shoe!!.reviews else emptyList()
+                    reviews = if (shoe != null) shoe!!.reviews else emptyList()
                 )
             }
         }
