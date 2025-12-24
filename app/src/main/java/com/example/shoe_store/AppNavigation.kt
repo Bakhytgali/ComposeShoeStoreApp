@@ -16,6 +16,7 @@ import com.example.shoe_store.pages.SearchPage
 import com.example.shoe_store.pages.ShopItemPage
 import com.example.shoe_store.pages.WelcomePage
 import com.example.shoe_store.viewModels.MainPageViewModel
+import com.example.shoe_store.viewModels.SearchViewModel
 import kotlinx.serialization.Serializable
 
 // Welcome Page Data Object
@@ -39,8 +40,9 @@ data object CartPage : NavKey
 
 @Composable
 fun AppNavigation(
-    user: UserViewModel,
+    userViewModel: UserViewModel,
     mainPageViewModel: MainPageViewModel,
+    searchViewModel: SearchViewModel,
     modifier: Modifier = Modifier
 ) {
     val backStack = rememberNavBackStack(WelcomePage)
@@ -61,7 +63,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         WelcomePage(
-                            user = user,
+                            user = userViewModel,
                             onClick = {
                                 backStack.add(HomePage)
                             }
@@ -73,7 +75,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         HomePage(
-                            userViewModel = user,
+                            userViewModel = userViewModel,
                             mainPageViewModel = mainPageViewModel,
                             onNavigateToItem = { itemId ->
                                 backStack.add(ShopItemPage(id = itemId))
@@ -92,7 +94,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         ShopItemPage(
-                            userViewModel = user,
+                            userViewModel = userViewModel,
                             itemId = key.id,
                             onBack = {
                                 backStack.removeLastOrNull()
@@ -105,7 +107,8 @@ fun AppNavigation(
                         key = key
                     ) {
                         SearchPage(
-                            user = user,
+                            userViewModel = userViewModel,
+                            searchViewModel = searchViewModel,
                             onBack = {
                                 backStack.removeLastOrNull()
                             }
@@ -117,7 +120,7 @@ fun AppNavigation(
                         key = key
                     ) {
                         CartPage(
-                            userViewModel = user,
+                            userViewModel = userViewModel,
                             onBack = {
                                 backStack.removeLastOrNull()
                             },

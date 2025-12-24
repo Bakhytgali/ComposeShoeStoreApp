@@ -22,12 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.HomePageSearchBar
+import com.example.shoe_store.viewModels.SearchViewModel
 import com.example.shoe_store.viewModels.UserViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchPage(
-    user: UserViewModel,
+    userViewModel: UserViewModel,
+    searchViewModel: SearchViewModel,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -64,9 +66,9 @@ fun SearchPage(
                 Spacer(Modifier.height(20.dp))
                 HomePageSearchBar(
                     isActive = true,
-                    value = "",
+                    value = searchViewModel.searchValue,
                     onValueChange = {
-
+                        searchViewModel.inputSearchField(it)
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
