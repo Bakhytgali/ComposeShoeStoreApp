@@ -17,11 +17,16 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import com.example.shoe_store.components.AppTopBar
 import com.example.shoe_store.components.HomePageSearchBar
+import com.example.shoe_store.components.SearchItems
 import com.example.shoe_store.viewModels.SearchViewModel
 import com.example.shoe_store.viewModels.UserViewModel
 
@@ -33,6 +38,14 @@ fun SearchPage(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val focusRequester = remember {
+        FocusRequester()
+    }
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
+
     Scaffold(
         topBar = {
             AppTopBar(
@@ -49,7 +62,7 @@ fun SearchPage(
             )
         },
         modifier = Modifier.background(MaterialTheme.colorScheme.background)
-    ){ innerPadding ->
+    ) { innerPadding ->
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -70,7 +83,15 @@ fun SearchPage(
                     onValueChange = {
                         searchViewModel.inputSearchField(it)
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .focusRequester(focusRequester)
+                )
+
+                Spacer(Modifier.height(20.dp))
+
+                SearchItems(
+                    shoes = searchViewModel.searchShoes
                 )
             }
         }
