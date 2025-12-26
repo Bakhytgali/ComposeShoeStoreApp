@@ -34,6 +34,7 @@ import com.example.shoe_store.viewModels.UserViewModel
 @Composable
 fun SearchPage(
     userViewModel: UserViewModel,
+    onNavigateToShopItem: (String) -> Unit,
     searchViewModel: SearchViewModel,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -91,7 +92,8 @@ fun SearchPage(
                 Spacer(Modifier.height(20.dp))
 
                 SearchItems(
-                    shoes = searchViewModel.searchShoes
+                    shoes = searchViewModel.searchShoes,
+                    onTap = onNavigateToShopItem
                 )
             }
         }

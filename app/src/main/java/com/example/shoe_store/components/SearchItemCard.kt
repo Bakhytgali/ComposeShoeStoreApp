@@ -1,12 +1,15 @@
 package com.example.shoe_store.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -21,12 +24,19 @@ import com.example.shoe_store.data.ShoeModel
 @Composable
 fun SearchItemCard(
     searchItem: ShoeModel,
+    onTap: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,
         ),
+        onClick = {
+            if(searchItem.shoeId.isNotBlank()) {
+                Log.d("Search Screen", searchItem.shoeId)
+                onTap(searchItem.shoeId)
+            }
+        },
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -41,6 +51,8 @@ fun SearchItemCard(
                 contentDescription = "Cart Item Img",
                 modifier = Modifier.size(100.dp)
             )
+
+            Spacer(Modifier.width(30.dp))
 
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,

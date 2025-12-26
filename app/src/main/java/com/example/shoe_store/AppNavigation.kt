@@ -109,6 +109,9 @@ fun AppNavigation(
                         SearchPage(
                             userViewModel = userViewModel,
                             searchViewModel = searchViewModel,
+                            onNavigateToShopItem = { itemId ->
+                                backStack.add(ShopItemPage(id = itemId))
+                            },
                             onBack = {
                                 backStack.removeLastOrNull()
                             }

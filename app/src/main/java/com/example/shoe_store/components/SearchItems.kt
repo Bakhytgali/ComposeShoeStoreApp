@@ -18,6 +18,7 @@ import com.example.shoe_store.data.ShoeModel
 @Composable
 fun SearchItems(
     shoes: List<ShoeModel>,
+    onTap: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -43,7 +44,8 @@ fun SearchItems(
             ) {
                 items(shoes) { shoe ->
                     SearchItemCard(
-                        searchItem = shoe
+                        searchItem = shoe,
+                        onTap = onTap
                     )
                 }
             }
