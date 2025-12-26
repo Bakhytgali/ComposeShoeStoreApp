@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.outlined.RemoveShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,6 +67,20 @@ fun ShopItemPage(
         SnackbarHostState()
     }
 
+    var itemIsLiked: Boolean by remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(shoe) {
+        shoe?.let {
+            itemIsLiked = userViewModel.alreadyInCard(it.shoeId)
+        }
+    }
+
+    var icon by remember {
+        mutableStateOf(Icons.Default.AddShoppingCart)
+    }
+
     LaunchedEffect(Unit) {
         shoe = ShoeStore.getShoeById(itemId)
     }
@@ -111,81 +126,91 @@ fun ShopItemPage(
                     shape = RoundedCornerShape(15.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 15.dp, horizontal = 20.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.Start
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
                     ) {
-                        shoe?.let {
-                            Image(
-                                painter = painterResource(it.shoeImg),
-                                contentDescription = "",
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .size(300.dp)
-                            )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 15.dp, horizontal = 20.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            shoe?.let {
+                                Image(
+                                    painter = painterResource(it.shoeImg),
+                                    contentDescription = "",
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .size(300.dp)
+                                )
 
-                            Box(
-                                modifier = Modifier.fillMaxWidth(),
-                                contentAlignment = Alignment.CenterStart
-                            ) {
-                                Column() {
-                                    Text(
-                                        text = it.shoeName,
-                                        style = MaterialTheme.typography.headlineLarge
-                                    )
-
-                                    Spacer(Modifier.height(10.dp))
-
-                                    Row(
-                                        horizontalArrangement = Arrangement.spacedBy(15.dp),
-                                        verticalAlignment = Alignment.Bottom
-                                    ) {
+                                Box(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    contentAlignment = Alignment.CenterStart
+                                ) {
+                                    Column() {
                                         Text(
-                                            text = "${it.shoePrice}$",
-                                            style = MaterialTheme.typography.bodyLarge,
+                                            text = it.shoeName,
+                                            style = MaterialTheme.typography.headlineLarge
                                         )
 
-                                        RatingStars(
-                                            rating = if (shoe != null) ShoeOperations.countAvgReview(
-                                                shoe!!
-                                            ) else 0.0
-                                        )
+                                        Spacer(Modifier.height(10.dp))
+
+                                        Row(
+                                            horizontalArrangement = Arrangement.spacedBy(15.dp),
+                                            verticalAlignment = Alignment.Bottom
+                                        ) {
+                                            Text(
+                                                text = "${it.shoePrice}$",
+                                                style = MaterialTheme.typography.bodyLarge,
+                                            )
+
+                                            RatingStars(
+                                                rating = if (shoe != null) ShoeOperations.countAvgReview(
+                                                    shoe!!
+                                                ) else 0.0
+                                            )
+                                        }
                                     }
                                 }
-                                IconButton(
-                                    onClick = {
-                                        if (shoe != null) {
-                                            val result = userViewModel.addShoeToCart(shoe!!.shoeId)
-                                            if (result == "OK") {
-                                                scope.launch {
-                                                    snackBarHostState.showSnackbar("Item added to cart")
-                                                }
-                                            } else {
-                                                scope.launch {
-                                                    snackBarHostState.showSnackbar("Something went wrong")
-                                                }
-                                            }
-                                        }
-                                    },
-                                    colors = IconButtonDefaults.iconButtonColors(
-                                        containerColor = MaterialTheme.colorScheme.primaryContainer
-                                    ),
-                                    shape = RoundedCornerShape(5.dp),
-                                    modifier = Modifier
-                                        .size(60.dp)
-                                        .align(Alignment.BottomEnd)
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.AddShoppingCart,
-                                        contentDescription = "Add To Cart Button",
-                                        tint = MaterialTheme.colorScheme.surface,
-                                        modifier = Modifier.padding(5.dp)
-                                    )
-                                }
                             }
+                        }
+
+                        IconButton(
+                            onClick = {
+                                if (shoe != null) {
+                                    val result = userViewModel.addShoeToCart(shoe!!.shoeId)
+                                    if (result == "OK") {
+                                        scope.launch {
+                                            itemIsLiked = true
+                                            icon = Icons.Outlined.RemoveShoppingCart
+                                            snackBarHostState.showSnackbar("Item added to cart")
+                                        }
+                                    } else {
+                                        scope.launch {
+                                            snackBarHostState.showSnackbar("Something went wrong")
+                                        }
+                                    }
+                                }
+                            },
+                            colors = IconButtonDefaults.iconButtonColors(
+                                containerColor = if(itemIsLiked) MaterialTheme.colorScheme.surface
+                                else MaterialTheme.colorScheme.onBackground
+                            ),
+                            shape = RoundedCornerShape(5.dp),
+                            modifier = Modifier
+                                .size(60.dp)
+                                .align(Alignment.BottomEnd)
+                        ) {
+                            Icon(
+                                imageVector = icon,
+                                contentDescription = "Add To Cart Button",
+                                tint = if(itemIsLiked) MaterialTheme.colorScheme.secondary
+                                else MaterialTheme.colorScheme.surface,
+                                modifier = Modifier.padding(5.dp)
+                            )
                         }
                     }
                 }

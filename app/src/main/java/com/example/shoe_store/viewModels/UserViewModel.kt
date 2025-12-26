@@ -31,7 +31,7 @@ class UserViewModel(): ViewModel() {
         return "ERROR"
     }
 
-    private fun alreadyInCard(id: String): Boolean {
+    fun alreadyInCard(id: String): Boolean {
         return userCart.any { shoe ->
             shoe.shoeId == id
         }
