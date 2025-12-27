@@ -1,14 +1,11 @@
 package com.example.shoe_store.components
 
-import android.graphics.Color
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -19,10 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.shoe_store.data.ShoeModel
-import com.example.shoe_store.data.ShoeStore
+import com.example.shoe_store.viewModels.UserViewModel
 
 @Composable
 fun MainPageHotPicksSection(
+    userViewModel: UserViewModel,
     shoes: List<ShoeModel>,
     onAddItemToCart: (String) -> Unit,
     onNavigateToItem: (String) -> Unit,
@@ -58,6 +56,7 @@ fun MainPageHotPicksSection(
             items(shoes) { shoe ->
                 HotPickCard(
                     shoe = shoe,
+                    shoeIsLiked = userViewModel.alreadyInCard(shoe.shoeId),
                     onNavigateToItem = onNavigateToItem,
                     onAddItemToCart = onAddItemToCart,
                     modifier = Modifier

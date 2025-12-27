@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.RemoveShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -35,6 +36,7 @@ import com.example.shoe_store.data.ShoeModel
 @Composable
 fun HotPickCard(
     shoe: ShoeModel,
+    shoeIsLiked: Boolean,
     onAddItemToCart: (String) -> Unit,
     onNavigateToItem: (String) -> Unit,
     modifier: Modifier = Modifier
@@ -83,15 +85,18 @@ fun HotPickCard(
                         onAddItemToCart(shoe.shoeId)
                     },
                     colors = IconButtonDefaults.iconButtonColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                        containerColor = if(shoeIsLiked) MaterialTheme.colorScheme.surface
+                            else MaterialTheme.colorScheme.primaryContainer
                     ),
                     shape = RoundedCornerShape(5.dp),
                     modifier = Modifier.size(60.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.AddShoppingCart,
-                        contentDescription = "Add To Cart Button",
-                        tint = MaterialTheme.colorScheme.surface,
+                        imageVector = if(shoeIsLiked) Icons.Default.RemoveShoppingCart
+                                else Icons.Default.AddShoppingCart,
+                        contentDescription = "",
+                        tint = if(shoeIsLiked) MaterialTheme.colorScheme.secondary
+                            else MaterialTheme.colorScheme.surface,
                         modifier = Modifier.padding(10.dp)
                     )
                 }

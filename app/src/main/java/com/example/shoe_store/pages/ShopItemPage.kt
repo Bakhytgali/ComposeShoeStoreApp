@@ -16,7 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.RemoveShoppingCart
+import androidx.compose.material.icons.outlined.AddShoppingCart
 import androidx.compose.material.icons.outlined.RemoveShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -67,18 +68,14 @@ fun ShopItemPage(
         SnackbarHostState()
     }
 
-    var itemIsLiked: Boolean by remember {
+    var itemIsInCart: Boolean by remember {
         mutableStateOf(false)
     }
 
     LaunchedEffect(shoe) {
         shoe?.let {
-            itemIsLiked = userViewModel.alreadyInCard(it.shoeId)
+            itemIsInCart = userViewModel.alreadyInCard(it.shoeId)
         }
-    }
-
-    var icon by remember {
-        mutableStateOf(Icons.Default.AddShoppingCart)
     }
 
     LaunchedEffect(Unit) {
@@ -150,7 +147,7 @@ fun ShopItemPage(
                                     modifier = Modifier.fillMaxWidth(),
                                     contentAlignment = Alignment.CenterStart
                                 ) {
-                                    Column() {
+                                    Column {
                                         Text(
                                             text = it.shoeName,
                                             style = MaterialTheme.typography.headlineLarge
@@ -184,8 +181,7 @@ fun ShopItemPage(
                                     val result = userViewModel.addShoeToCart(shoe!!.shoeId)
                                     if (result == "OK") {
                                         scope.launch {
-                                            itemIsLiked = true
-                                            icon = Icons.Outlined.RemoveShoppingCart
+                                            itemIsInCart = true
                                             snackBarHostState.showSnackbar("Item added to cart")
                                         }
                                     } else {
@@ -196,7 +192,7 @@ fun ShopItemPage(
                                 }
                             },
                             colors = IconButtonDefaults.iconButtonColors(
-                                containerColor = if(itemIsLiked) MaterialTheme.colorScheme.surface
+                                containerColor = if(itemIsInCart) MaterialTheme.colorScheme.surface
                                 else MaterialTheme.colorScheme.onBackground
                             ),
                             shape = RoundedCornerShape(5.dp),
@@ -205,11 +201,11 @@ fun ShopItemPage(
                                 .align(Alignment.BottomEnd)
                         ) {
                             Icon(
-                                imageVector = icon,
-                                contentDescription = "Add To Cart Button",
-                                tint = if(itemIsLiked) MaterialTheme.colorScheme.secondary
-                                else MaterialTheme.colorScheme.surface,
-                                modifier = Modifier.padding(5.dp)
+                                imageVector = if(itemIsInCart) Icons.Default.RemoveShoppingCart
+                                    else Icons.Outlined.AddShoppingCart,
+                                contentDescription = "",
+                                tint = if(itemIsInCart) MaterialTheme.colorScheme.secondary
+                                    else MaterialTheme.colorScheme.surface
                             )
                         }
                     }

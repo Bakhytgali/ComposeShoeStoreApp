@@ -29,10 +29,10 @@ object ShoeStore {
 
     private fun generateRandomCharacteristics(): List<ShoeCharacteristicsModel> {
         return listOf(
-            ShoeCharacteristicsModel("Comfort", (3..5).random().toDouble()),
-            ShoeCharacteristicsModel("Durability", (3..5).random().toDouble()),
+            ShoeCharacteristicsModel("Comfort", (2..5).random().toDouble()),
+            ShoeCharacteristicsModel("Durability", (2..5).random().toDouble()),
             ShoeCharacteristicsModel("Water resistance", (2..5).random().toDouble()),
-            ShoeCharacteristicsModel("Flexibility", (3..5).random().toDouble()),
+            ShoeCharacteristicsModel("Flexibility", (2..5).random().toDouble()),
         )
     }
 

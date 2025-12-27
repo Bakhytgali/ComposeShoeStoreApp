@@ -171,6 +171,7 @@ fun HomePage(
                     Spacer(Modifier.height(20.dp))
 
                     MainPageHotPicksSection(
+                        userViewModel = userViewModel,
                         onAddItemToCart = { shoeId ->
                             val result = userViewModel.addShoeToCart(id = shoeId)
                             if(result == "OK") {
